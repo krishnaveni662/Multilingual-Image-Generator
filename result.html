@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caption Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h2>Original Caption:</h2>
+    <p>{{ caption }}</p>
+
+    <h2>Translated:</h2>
+    <p>{{ translated }}</p>
+
+    <img src="{{ img }}" alt="Uploaded Image" width="400"><br>
+
+    <h2>Audio:</h2>
+    <audio controls>
+        <source src="{{ audio }}" type="audio/mpeg">
+    </audio><br>
+
+    <a href="{{ url_for('index') }}">Try Another</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Generate Image</h2>
+  <form method="POST" action="{{ url_for('generate') }}">
+    
+    <!-- User input -->
+    <div class="mb-3">
+      <label for="text_prompt" class="form-label">Enter Prompt</label>
+      <input type="text" class="form-control" id="text_prompt" name="text_prompt" required>
+    </div>
+
+    <!-- Language selection -->
+    <div class="mb-3">
+      <label for="prompt_language" class="form-label">Select Prompt Language</label>
+      <select class="form-select" id="prompt_language" name="prompt_language">
+        <option value="en" selected>English</option>
+        <option value="te">Telugu</option>
+        <option value="hi">Hindi</option>
+        <option value="ta">Tamil</option>
+        <option value="kn">Kannada</option>
+        <option value="ml">Malayalam</option>
+      </select>
+    </div>
+
+    <!-- Converted + English semantic -->
+    <div class="mb-3">
+      <label class="form-label">Prompt in Selected Language</label>
+      <input type="text" class="form-control" id="converted_prompt" name="converted_prompt" readonly>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">English Semantic Meaning (used for generation)</label>
+      <input type="text" class="form-control" id="english_prompt" name="english_prompt" readonly>
+    </div>
+
+    <!-- Translator engine -->
+    <div class="mb-3">
+      <label class="form-label">Translator Engine Used</label>
+      <input type="text" class="form-control" id="engine" name="engine" readonly>
+    </div>
+
+    <!-- Style -->
+    <div class="mb-3">
+      <label for="style" class="form-label">Select Style</label>
+      <select class="form-select" id="style" name="style">
+        <option value="Natural" selected>Natural</option>
+        <option value="Anime">Anime</option>
+        <option value="Realism">Realism</option>
+        <option value="Oil Painting">Oil Painting</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Generate</button>
+  </form>
+</div>
+
+<script>
+  function updateTranslation() {
+    const text = document.getElementById("text_prompt").value;
+    const target = document.getElementById("prompt_language").value;
+    if (!text) return;
+
+    fetch("{{ url_for('translate_prompt') }}", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: text, target: target })
+    })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("converted_prompt").value = data.converted;
+      document.getElementById("english_prompt").value = data.english;
+      document.getElementById("engine").value = data.engine;
+    });
+  }
+
+  document.getElementById("text_prompt").addEventListener("input", updateTranslation);
+  document.getElementById("prompt_language").addEventListener("change", updateTranslation);
+</script>
+{% endblock %}

@@ -1,0 +1,217 @@
+/* static/css/style.css - responsive, consistent layout */
+:root{
+  --accent: #007BFF;
+  --accent-dark: #0056b3;
+  --muted: #6c757d;
+  --card-bg: #ffffff;
+  --page-bg: #f4f6fb;
+  --radius: 10px;
+  --shadow: 0 6px 18px rgba(12,34,56,0.06);
+  --max-width: 1000px;
+  --gap: 16px;
+  font-synthesis: none;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color:#222;
+  background:var(--page-bg);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+
+/* header / nav */
+header{
+  background:var(--accent);
+  color:#fff;
+  padding:14px 0;
+  box-shadow:0 2px 6px rgba(0,0,0,0.06);
+}
+.header-inner{
+  width:90%;
+  max-width:var(--max-width);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.logo{font-weight:700; font-size:18px}
+nav ul{list-style:none;margin:0;padding:0;display:flex;gap:10px;align-items:center}
+nav a{color:inherit;text-decoration:none;padding:8px 12px;border-radius:8px;display:inline-block}
+nav a:hover{background:rgba(255,255,255,0.08)}
+
+main.container{
+  width:90%;
+  max-width:var(--max-width);
+  margin:22px auto;
+  min-height:60vh;
+  display:block;
+}
+
+/* page card */
+.card{
+  background:var(--card-bg);
+  border-radius:var(--radius);
+  padding:22px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
+}
+
+/* forms */
+.form-container{max-width:720px;margin:0 auto}
+label{display:block;margin-bottom:6px;font-weight:600;color:#333}
+input[type="text"], input[type="password"], select, textarea{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid #e3e7ef;
+  border-radius:8px;
+  background:#fff;
+  margin-bottom:12px;
+  font-size:14px;
+}
+textarea{min-height:120px;resize:vertical}
+
+/* buttons */
+.btn{
+  display:inline-block;
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+  text-decoration:none;
+}
+.btn:hover{background:var(--accent-dark)}
+.btn.secondary{background:#f0f3ff;color:var(--accent);box-shadow:none}
+
+/* options row */
+.options{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+
+/* image */
+.responsive-img{max-width:100%;height:auto;border-radius:8px;display:block;margin:10px 0}
+
+/* flash */
+.flash{padding:12px;border-radius:8px;margin-bottom:12px}
+.flash.success{background:#e6ffed;color:#064c2b}
+.flash.danger{background:#ffe6e6;color:#6b0d0d}
+.flash.info{background:#e8f1ff;color:#08306b}
+
+/* history table */
+.table{width:100%;border-collapse:collapse}
+.table th, .table td{padding:10px;border:1px solid #eef2f7;text-align:left}
+.table th{background:#f7f9fc}
+
+/* small controls */
+.controls{display:flex;gap:8px;align-items:center}
+.small{font-size:13px;color:var(--muted)}
+
+/* audio element spacing */
+audio{margin-top:8px;display:block}
+
+/* responsive tweaks */
+@media (max-width:720px){
+  .header-inner{padding:0 8px}
+  .logo{font-size:16px}
+  input, select, textarea{font-size:15px}
+}
+
+/* audio player / speech module */
+.speech-container {
+  max-width: 720px;
+  margin: 0 auto 24px auto;
+  padding: 20px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.speech-container h3 {
+  margin-bottom: 12px;
+  font-size: 18px;
+  color: #222;
+}
+
+.speech-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.speech-btn:hover {
+  background: var(--accent-dark);
+}
+
+.speech-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.speech-output {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid #e3e7ef;
+  border-radius: var(--radius);
+  background: #f9f9f9;
+}
+
+.speech-output label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.speech-output p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.audio-player {
+  margin-top: 12px;
+  width: 100%;
+}
+
+/* loading / spinner */
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--accent);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+
+/* responsive tweaks for speech module */
+@media (max-width: 720px) {
+  .speech-container {
+    padding: 16px;
+  }
+
+  .speech-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

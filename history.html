@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>History</h2>
+  {% if history_items %}
+    <div class="row">
+      {% for item in history_items %}
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm h-100">
+          {% if item.image_filename %}
+            <img src="{{ url_for('static', filename='uploads/' ~ item.image_filename) }}" 
+                 alt="History Image" class="card-img-top">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title text-capitalize">{{ item.kind }}</h5>
+            <p class="text-muted">{{ item.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</p>
+
+            {% if item.caption %}
+              <p><b>Final Styled Prompt:</b> {{ item.caption }}</p>
+            {% endif %}
+            {% if item.translated %}
+              <p><b>English Meaning:</b> {{ item.translated }}</p>
+            {% endif %}
+            {% if item.original_input %}
+              <p><b>Original Input:</b> {{ item.original_input }}</p>
+            {% endif %}
+            {% if item.converted %}
+              <p><b>Converted Prompt:</b> {{ item.converted }}</p>
+            {% endif %}
+
+            {% if item.tts_filename %}
+              <p><b>Audio Output:</b></p>
+              <audio controls class="w-100">
+                <source src="{{ url_for('static', filename='tts/' ~ item.tts_filename) }}" type="audio/mpeg">
+              </audio>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No history yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

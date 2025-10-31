@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="speech-container">
+    <h2 class="mb-4">Speech Recognition Result</h2>
+    
+    <div class="mb-3">
+        <audio class="audio-player" controls>
+            <source src="{{ url_for('static', filename='uploads/' ~ filename) }}" type="audio/wav">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <div class="speech-output">
+        <label>Original Text:</label>
+        <p>{{ original_text }}</p>
+
+        <label>Translated Text ({{ target_lang }}):</label>
+        <p>{{ translated_text }}</p>
+    </div>
+
+    <a href="{{ url_for('speech') }}" class="btn btn-secondary mt-3">Try Another</a>
+</div>
+{% endblock %}

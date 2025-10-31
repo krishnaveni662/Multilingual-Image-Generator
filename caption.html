@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Caption an Image</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="image" class="form-label">Upload Image</label>
+      <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="caption_language" class="form-label">Select Caption Output Language</label>
+      <select class="form-select" id="caption_language" name="caption_language">
+        <option value="en" selected>English</option>
+        <option value="te">Telugu</option>
+        <option value="hi">Hindi</option>
+        <option value="ta">Tamil</option>
+        <option value="kn">Kannada</option>
+        <option value="ml">Malayalam</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Generate Caption</button>
+  </form>
+</div>
+{% endblock %}

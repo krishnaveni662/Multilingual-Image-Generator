@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Speech Recognition</h2>
+
+    <!-- Upload audio file -->
+    <form method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="audio_file" class="form-label">Upload Audio File</label>
+            <!-- name should match backend: "file" -->
+            <input type="file" class="form-control" id="audio_file" name="audio" accept="audio/*" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="target_lang" class="form-label">Select Language</label>
+            <!-- name should match backend: "target_lang" -->
+            <select name="target_lang" id="target_lang" class="form-select">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="ta">Tamil</option>
+                <option value="te">Telugu</option>
+                <option value="fr">French</option>
+                <option value="es">Spanish</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload & Transcribe</button>
+    </form>
+
+    <hr>
+
+    <!-- Live Recording -->
+    <button id="record-btn" class="btn btn-success">Start Recording</button>
+    <button id="stop-btn" class="btn btn-danger" disabled>Stop Recording</button>
+
+    <form id="recording-form" method="POST" enctype="multipart/form-data" style="display:none;">
+        <!-- must match backend: target_lang + audio_file -->
+        <input type="hidden" name="target_lang" value="en" id="hidden-lang">
+        <input type="file" id="hidden-audio" name="file" style="display:none;">
+    </form>
+</div>
+
+<script>
+let mediaRecorder;
+let audioChunks = [];
+const recordBtn = document.getElementById("record-btn");
+const stopBtn = document.getElementById("stop-btn");
+
+recordBtn.addEventListener("click", async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.start();
+    audioChunks = [];
+
+    mediaRecorder.addEventListener("dataavailable", event => {
+        audioChunks.push(event.data);
+    });
+
+    mediaRecorder.addEventListener("stop", () => {
+        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+        const file = new File([audioBlob], "recording.wav", { type: "audio/wav" });
+
+        // Attach to hidden input
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        document.getElementById("hidden-audio").files = dataTransfer.files;
+
+        document.getElementById("recording-form").submit();
+    });
+
+    recordBtn.disabled = true;
+    stopBtn.disabled = false;
+});
+
+stopBtn.addEventListener("click", () => {
+    mediaRecorder.stop();
+    recordBtn.disabled = false;
+    stopBtn.disabled = true;
+});
+</script>
+{% endblock %}

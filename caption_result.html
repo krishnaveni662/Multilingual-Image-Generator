@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Caption Result</h2>
+
+  <div class="card p-3 shadow-sm">
+    <img src="{{ url_for('static', filename='uploads/' ~ image_filename) }}"
+         alt="Uploaded Image" class="img-fluid mb-3 rounded">
+
+    <p><strong>Caption (English):</strong> {{ caption }}</p>
+    <p><strong>Caption ({{ lang }}):</strong> {{ caption_translated }}</p>
+  </div>
+
+  <a href="{{ url_for('caption') }}" class="btn btn-secondary mt-3">Caption Another Image</a>
+</div>
+{% endblock %}
